@@ -20,7 +20,7 @@ fig, ax = plt.subplots(figsize=(20, 20))
 roads.plot(ax=ax, linewidth=1.5, edgecolor='gray', facecolor='none', zorder=1)
 
 plt.show()
-#построение кратчайшего пути с помощью встроенной библиотеки osmnx
+#РїРѕСЃС‚СЂРѕРµРЅРёРµ РєСЂР°С‚С‡Р°Р№С€РµРіРѕ РїСѓС‚Рё СЃ РїРѕРјРѕС‰СЊСЋ РІСЃС‚СЂРѕРµРЅРЅРѕР№ Р±РёР±Р»РёРѕС‚РµРєРё osmnx
 route = nx.shortest_path(G, 469710010, 9978536016, weight="length")
 fig, ax = ox.plot.plot_graph_route(
     G, 
@@ -32,7 +32,7 @@ fig, ax = ox.plot.plot_graph_route(
     ax=None, 
     figsize=(20,20))
 
-#Преобразование списка data в словарь вида 
+#РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ СЃРїРёСЃРєР° data РІ СЃР»РѕРІР°СЂСЊ РІРёРґР° 
 #graph = {a:[['b', '10'], ['g', '5']], ...
 start = 469710010
 finish = 9978536016
@@ -45,10 +45,10 @@ for i in range(len(data)):
 my_dict['Nodes'] = list(nodes)
 my_dict['Edges'] = data
 
-#список вершин
+#СЃРїРёСЃРѕРє РІРµСЂС€РёРЅ
 vertex = (my_dict['Nodes'])
 
-graph = dict() #для хранения ребер вершин и их веса
+graph = dict() #РґР»СЏ С…СЂР°РЅРµРЅРёСЏ СЂРµР±РµСЂ РІРµСЂС€РёРЅ Рё РёС… РІРµСЃР°
 for k in vertex:
     graph[k] = []
 
@@ -57,14 +57,14 @@ for num_val in range(len(my_dict['Edges'])):
     graph[my_dict['Edges'][num_val][0]] += [[my_dict['Edges'][num_val][2],my_dict['Edges'][num_val][1]]]
 
 #graph = {a:[['b', '10'], ['g', '5']], ...
-#создает 2 словаря 
-    #len_way словарь для хранения вершины и пути до нее
-    #visited_vert cловарь для запоминания пути от вершины к вершине
+#СЃРѕР·РґР°РµС‚ 2 СЃР»РѕРІР°СЂСЏ 
+    #len_way СЃР»РѕРІР°СЂСЊ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РІРµСЂС€РёРЅС‹ Рё РїСѓС‚Рё РґРѕ РЅРµРµ
+    #visited_vert cР»РѕРІР°СЂСЊ РґР»СЏ Р·Р°РїРѕРјРёРЅР°РЅРёСЏ РїСѓС‚Рё РѕС‚ РІРµСЂС€РёРЅС‹ Рє РІРµСЂС€РёРЅРµ
 def dijkstra(graph: dict, start: float)-> (dict, dict): 
 
     queue = list()
-    len_way = dict() #словарь для хранения вершины и пути до нее
-    visited_vert = dict() #cловарь для запоминания пути от вершины к вершине
+    len_way = dict() #СЃР»РѕРІР°СЂСЊ РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РІРµСЂС€РёРЅС‹ Рё РїСѓС‚Рё РґРѕ РЅРµРµ
+    visited_vert = dict() #cР»РѕРІР°СЂСЊ РґР»СЏ Р·Р°РїРѕРјРёРЅР°РЅРёСЏ РїСѓС‚Рё РѕС‚ РІРµСЂС€РёРЅС‹ Рє РІРµСЂС€РёРЅРµ
 
     queue.append((0, start))
     len_way[start] = 0
@@ -84,7 +84,7 @@ def dijkstra(graph: dict, start: float)-> (dict, dict):
                 visited_vert[neighbor_vert] = now_vert
     return visited_vert, len_way
 
-#функция восстановления кратчайшего пути 
+#С„СѓРЅРєС†РёСЏ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёСЏ РєСЂР°С‚С‡Р°Р№С€РµРіРѕ РїСѓС‚Рё 
 def route(visited_vert: dict, start: float, finish: float)-> dict:
     shorter_way = [finish,]
     while visited_vert[finish] != None:
@@ -95,7 +95,7 @@ visited_vert, len_way = dijkstra(graph, 469710010)
 
 shorter_way = route(visited_vert, 469710010, 9978536016)
 
-#график кратчайшего пути с помощью функций dijkstra и route описанных выше
+#РіСЂР°С„РёРє РєСЂР°С‚С‡Р°Р№С€РµРіРѕ РїСѓС‚Рё СЃ РїРѕРјРѕС‰СЊСЋ С„СѓРЅРєС†РёР№ dijkstra Рё route РѕРїРёСЃР°РЅРЅС‹С… РІС‹С€Рµ
 fig, ax = ox.plot.plot_graph_route(                             
     G, 
     shorter_way, 
@@ -106,20 +106,20 @@ fig, ax = ox.plot.plot_graph_route(
     ax=None, 
     figsize=(20,20))
 
-# найдем места, куда можно попасть из заданной точки start, если двигаться 
-speed = 15                               #со скоростью speed за время time
+# РЅР°Р№РґРµРј РјРµСЃС‚Р°, РєСѓРґР° РјРѕР¶РЅРѕ РїРѕРїР°СЃС‚СЊ РёР· Р·Р°РґР°РЅРЅРѕР№ С‚РѕС‡РєРё start, РµСЃР»Рё РґРІРёРіР°С‚СЊСЃСЏ 
+speed = 15                               #СЃРѕ СЃРєРѕСЂРѕСЃС‚СЊСЋ speed Р·Р° РІСЂРµРјСЏ time
 time = 30
 dist = speed*time
 
-stack_vert = list() #для хранения пути вершин
-stack_way = list()  #для хранения пройденного расстояния 
+stack_vert = list() #РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РїСѓС‚Рё РІРµСЂС€РёРЅ
+stack_way = list()  #РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РїСЂРѕР№РґРµРЅРЅРѕРіРѕ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ 
 
 stack_vert.append(start)
 stack_way.append(0)
 
-range_way = list() #для хранения диапазона путей, которые не превышают расстояния dist
+range_way = list() #РґР»СЏ С…СЂР°РЅРµРЅРёСЏ РґРёР°РїР°Р·РѕРЅР° РїСѓС‚РµР№, РєРѕС‚РѕСЂС‹Рµ РЅРµ РїСЂРµРІС‹С€Р°СЋС‚ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ dist
 
-#функция очистки стека до заданного значения
+#С„СѓРЅРєС†РёСЏ РѕС‡РёСЃС‚РєРё СЃС‚РµРєР° РґРѕ Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
 def clean_stack(next_v):
     global stack_way
     global stack_vert 
@@ -128,7 +128,7 @@ def clean_stack(next_v):
                 stack_vert = stack_vert[0:i]
                 stack_way = stack_way[0:i]
                 break
-#функция поиска диапазона путей, которые не превышают расстояния dist
+#С„СѓРЅРєС†РёСЏ РїРѕРёСЃРєР° РґРёР°РїР°Р·РѕРЅР° РїСѓС‚РµР№, РєРѕС‚РѕСЂС‹Рµ РЅРµ РїСЂРµРІС‹С€Р°СЋС‚ СЂР°СЃСЃС‚РѕСЏРЅРёСЏ dist
 def walking_distance(graph, start):
 
     for len_ed, next_v in graph[start]:
@@ -141,7 +141,7 @@ def walking_distance(graph, start):
             clean_stack(next_v)
         
 walking_distance(graph, start)
-#график путей, которые можно совершить из заданной точки start, если двигаться со скоростью speed за время time         
+#РіСЂР°С„РёРє РїСѓС‚РµР№, РєРѕС‚РѕСЂС‹Рµ РјРѕР¶РЅРѕ СЃРѕРІРµСЂС€РёС‚СЊ РёР· Р·Р°РґР°РЅРЅРѕР№ С‚РѕС‡РєРё start, РµСЃР»Рё РґРІРёРіР°С‚СЊСЃСЏ СЃРѕ СЃРєРѕСЂРѕСЃС‚СЊСЋ speed Р·Р° РІСЂРµРјСЏ time         
 ox.plot.plot_graph_routes(G, range_way, route_colors='r', route_linewidths=1)
 
 
